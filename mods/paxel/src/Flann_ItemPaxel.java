@@ -27,8 +27,8 @@ public class Flann_ItemPaxel extends ItemPickaxe {
 	
 	@Override
 	@SideOnly(Side.CLIENT) //Makes sure that only the client side can call this method
-	public void updateIcons(IconRegister IR){
-		this.iconIndex = IR.registerIcon(PaxelCore.modid + ":" + tex);
+	public void registerIcons(IconRegister IR){
+		this.itemIcon = IR.registerIcon(PaxelCore.modid + ":" + tex);
 	}
 	
 	public boolean canHarvestBlock(Block par1Block)

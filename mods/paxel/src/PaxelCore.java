@@ -18,7 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @NetworkMod(clientSideRequired=true,serverSideRequired=false)
-@Mod(modid=PaxelCore.modid,name="Xnet's Paxel Mod",version="#1")
+@Mod(modid=PaxelCore.modid,name="Xnet's Paxel Mod",version="#2")
 public class PaxelCore {
 	public static final String modid = "paxel";
 	
@@ -72,7 +72,7 @@ public class PaxelCore {
 		
 		GameRegistry.addRecipe(new ItemStack(paxelW, 1), "PAS", " | ", " | ", Character.valueOf('P'), Item.pickaxeWood, Character.valueOf('A'), Item.axeWood, Character.valueOf('S'), Item.shovelWood, Character.valueOf('|'), Item.stick);
 		GameRegistry.addRecipe(new ItemStack(paxelS, 1), "PAS", " | ", " | ", Character.valueOf('P'), Item.pickaxeStone, Character.valueOf('A'), Item.axeStone, Character.valueOf('S'), Item.shovelStone, Character.valueOf('|'), Item.stick);
-		GameRegistry.addRecipe(new ItemStack(paxelI, 1), "PAS", " | ", " | ", Character.valueOf('P'), Item.pickaxeSteel, Character.valueOf('A'), Item.axeSteel, Character.valueOf('S'), Item.shovelSteel, Character.valueOf('|'), Item.stick);
+		GameRegistry.addRecipe(new ItemStack(paxelI, 1), "PAS", " | ", " | ", Character.valueOf('P'), Item.pickaxeIron, Character.valueOf('A'), Item.axeIron, Character.valueOf('S'), Item.shovelIron, Character.valueOf('|'), Item.stick);
 		GameRegistry.addRecipe(new ItemStack(paxelD, 1), "PAS", " | ", " | ", Character.valueOf('P'), Item.pickaxeDiamond, Character.valueOf('A'), Item.axeDiamond, Character.valueOf('S'), Item.shovelDiamond, Character.valueOf('|'), Item.stick);
 		GameRegistry.addRecipe(new ItemStack(paxelG, 1), "PAS", " | ", " | ", Character.valueOf('P'), Item.pickaxeGold, Character.valueOf('A'), Item.axeGold, Character.valueOf('S'), Item.shovelGold, Character.valueOf('|'), Item.stick);
 	}
