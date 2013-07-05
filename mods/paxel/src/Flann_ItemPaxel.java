@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -16,19 +17,35 @@ import net.minecraft.item.ItemTool;
 
 public class Flann_ItemPaxel extends ItemPickaxe {
     
-	public String tex = "";
+	public String tex, name;
+	public ItemStack ccm;
+	public boolean hasDam;
 	
-	
-	public Flann_ItemPaxel(int i, String t, EnumToolMaterial enumtoolmaterial) {
+	public Flann_ItemPaxel(int i, String displayName, String texture, ItemStack customCraftingMaterial, boolean hasDamage, EnumToolMaterial enumtoolmaterial) {
 		super(i, enumtoolmaterial);
-		tex = t;
-		setCreativeTab(CreativeTabs.tabTools);
+		tex = texture;
+		ccm = customCraftingMaterial;
+		hasDam = hasDamage;
+		name = displayName;
+	}
+	
+	public Flann_ItemPaxel(int i, String displayName, String t, Item ccm, EnumToolMaterial enumtoolmaterial) {
+		this(i, displayName, t, new ItemStack(ccm), false, enumtoolmaterial);
+	}
+	
+	public Flann_ItemPaxel(int i, String displayName, String t, Block ccm, EnumToolMaterial enumtoolmaterial) {
+		this(i, displayName, t, new ItemStack(ccm), false, enumtoolmaterial);
+	}
+	
+	@Override
+	public String getItemDisplayName(ItemStack is){
+		return name;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT) //Makes sure that only the client side can call this method
 	public void registerIcons(IconRegister IR){
-		this.itemIcon = IR.registerIcon(PaxelCore.modid + ":" + tex);
+		this.itemIcon = IR.registerIcon(tex);
 	}
 	
 	public boolean canHarvestBlock(Block par1Block)
@@ -51,4 +68,11 @@ public class Flann_ItemPaxel extends ItemPickaxe {
     	else
     		return super.getStrVsBlock(par1ItemStack, par2Block);
     }
+	
+	@Override
+	public boolean getIsRepairable(ItemStack i, ItemStack j){
+		if(hasDam)
+			return (i.itemID == itemID && j.itemID == ccm.itemID && j.getItemDamage() == ccm.getItemDamage());
+		return (i.itemID == itemID && j.itemID == ccm.itemID);
+	}
 }
