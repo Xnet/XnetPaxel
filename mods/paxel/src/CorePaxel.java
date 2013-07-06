@@ -28,7 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @NetworkMod(clientSideRequired=true,serverSideRequired=false)
-@Mod(modid=CorePaxel.modid,name="Xnet's Paxel Mod",version="#3")
+@Mod(modid=CorePaxel.modid,name="Xnet's Paxel Mod",version="#4")
 public class CorePaxel {
 	
 	public static final String modid = "Paxel";
@@ -94,16 +94,21 @@ public class CorePaxel {
 			if(enableCoreIngotRedstone && enableRedstone)
 				set(coreConfig, "general", "enableIngotRedstone", true);
 		coreConfig.save();
+		
+		init_pre();
 	}
 	
 	@Init
 	public void load(FMLInitializationEvent event){
+		init();
+	}
+	
+	public void init_pre(){
 		if(enableVanilla || enableEmerald || enableNetherrack || enableObsidian || enableRedstone || enableSteel){
 			LanguageRegistry.instance().addStringLocalization("itemGroup.tabPAXEL", "en_US", "Paxel Mod");
 		}
 		if(advancedRecipes){
 			stickCrafter = new Flann_ItemStickCrafter(vanillaID+0, "Stick Crafter", texLoc+"stickCrafter").setUnlocalizedName("stickCrafter").setCreativeTab(tabPAXEL);
-			GameRegistry.addShapelessRecipe(new ItemStack(stickCrafter), Item.flint, Block.cobblestone);
 		}
 		if(enableVanilla){
 			GameRegistry.registerFuelHandler(new Flann_FuelHandler());
@@ -125,6 +130,88 @@ public class CorePaxel {
 				paxelD = new Flann_ItemPaxel(vanillaID+7, "Diamond Paxel", texLoc+"paxelD", Item.diamond, DIAMOND).setUnlocalizedName("paxelD").setCreativeTab(tabPAXEL);
 				paxelG = new Flann_ItemPaxel(vanillaID+8, "Golden Paxel", texLoc+"paxelG", Item.ingotGold, GOLD).setUnlocalizedName("paxelG").setCreativeTab(tabPAXEL);
 			}
+		}
+		if(enableEmerald){
+			String ingot = "emerald";
+			String ingot2 = "emerald";
+			boolean useOD = false;
+			ItemStack ccm = new ItemStack(Item.emerald);
+			boolean ccmDam = false;
+			String Mat = "Emerald";
+			String M = "E";
+			if(advancedRecipes){
+				cataE = new Flann_ItemCataPaxel(emeraldID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelE = new Flann_ItemPaxel(emeraldID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}else{
+				paxelE = new Flann_ItemPaxel(emeraldID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}
+		}
+		if(enableNetherrack){
+			String ingot = "netherrack";
+			String ingot2 = "netherrack";
+			boolean useOD = false;
+			ItemStack ccm = new ItemStack(Block.netherrack);
+			boolean ccmDam = false;
+			String Mat = "Netherrack";
+			String M = "N";
+			if(advancedRecipes){
+				cataN = new Flann_ItemCataPaxel(netherrackID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelN = new Flann_ItemPaxel(netherrackID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}else{
+				paxelN = new Flann_ItemPaxel(netherrackID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}
+		}
+		if(enableObsidian){
+			String ingot = "obsidian";
+			String ingot2 = "obsidian";
+			boolean useOD = false;
+			ItemStack ccm = new ItemStack(Block.obsidian);
+			boolean ccmDam = false;
+			String Mat = "Obsidian";
+			String M = "O";
+			if(advancedRecipes){
+				cataO = new Flann_ItemCataPaxel(obsidianID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelO = new Flann_ItemPaxel(obsidianID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}else{
+				paxelO = new Flann_ItemPaxel(obsidianID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}
+		}
+		if(enableRedstone){
+			String ingot = "ingotRedstone";
+			String ingot2 = "ingotRedstone";
+			boolean useOD = true;
+			ItemStack ccm = new ItemStack(Item.ingotIron);
+			boolean ccmDam = false;
+			String Mat = "Redstone";
+			String M = "R";
+			if(advancedRecipes){
+				cataR = new Flann_ItemCataPaxel(redstoneID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelR = new Flann_ItemPaxel(redstoneID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}else{
+				paxelR = new Flann_ItemPaxel(redstoneID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}
+		}
+		if(enableSteel){
+			String ingot = "ingotSteel";
+			String ingot2 = "ingotSteelUnhardened";
+			boolean useOD = true;
+			ItemStack ccm = new ItemStack(Item.ingotIron);
+			boolean ccmDam = false;
+			String Mat = "Steel";
+			String M = "St";
+			if(advancedRecipes){
+				cataSt = new Flann_ItemCataPaxel(steelID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelSt = new Flann_ItemPaxel(steelID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}else{
+				paxelSt = new Flann_ItemPaxel(steelID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+			}
+		}
+	}
+	public void init(){
+		if(advancedRecipes){
+			GameRegistry.addShapelessRecipe(new ItemStack(stickCrafter), Item.flint, Block.cobblestone);
+		}
+		if(enableVanilla){
 			MinecraftForge.setToolClass(paxelW, "pickaxe", 0);
 			MinecraftForge.setToolClass(paxelS, "pickaxe", 1);
 			MinecraftForge.setToolClass(paxelI, "pickaxe", 2);
@@ -198,12 +285,7 @@ public class CorePaxel {
 			boolean ccmDam = false;
 			String Mat = "Emerald";
 			String M = "E";
-			if(advancedRecipes){
-				cataE = new Flann_ItemCataPaxel(emeraldID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelE = new Flann_ItemPaxel(emeraldID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}else{
-				paxelE = new Flann_ItemPaxel(emeraldID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}
+			
 			MinecraftForge.setToolClass(paxelE, "pickaxe", EMERALD.getHarvestLevel());
 			OreDictionary.registerOre("paxel"+Mat, paxelE);
 			
@@ -245,12 +327,7 @@ public class CorePaxel {
 			boolean ccmDam = false;
 			String Mat = "Netherrack";
 			String M = "N";
-			if(advancedRecipes){
-				cataN = new Flann_ItemCataPaxel(netherrackID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelN = new Flann_ItemPaxel(netherrackID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}else{
-				paxelN = new Flann_ItemPaxel(netherrackID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}
+			
 			MinecraftForge.setToolClass(paxelN, "pickaxe", NETHERRACK.getHarvestLevel());
 			OreDictionary.registerOre("paxel"+Mat, paxelN);
 			
@@ -292,12 +369,7 @@ public class CorePaxel {
 			boolean ccmDam = false;
 			String Mat = "Obsidian";
 			String M = "O";
-			if(advancedRecipes){
-				cataO = new Flann_ItemCataPaxel(obsidianID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelO = new Flann_ItemPaxel(obsidianID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}else{
-				paxelO = new Flann_ItemPaxel(obsidianID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}
+			
 			MinecraftForge.setToolClass(paxelO, "pickaxe", OBSIDIAN.getHarvestLevel());
 			OreDictionary.registerOre("paxel"+Mat, paxelO);
 			
@@ -339,12 +411,7 @@ public class CorePaxel {
 			boolean ccmDam = false;
 			String Mat = "Redstone";
 			String M = "R";
-			if(advancedRecipes){
-				cataR = new Flann_ItemCataPaxel(redstoneID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelR = new Flann_ItemPaxel(redstoneID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}else{
-				paxelR = new Flann_ItemPaxel(redstoneID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}
+			
 			MinecraftForge.setToolClass(paxelR, "pickaxe", REDSTONE.getHarvestLevel());
 			OreDictionary.registerOre("paxel"+Mat, paxelR);
 			
@@ -386,12 +453,7 @@ public class CorePaxel {
 			boolean ccmDam = false;
 			String Mat = "Steel";
 			String M = "St";
-			if(advancedRecipes){
-				cataSt = new Flann_ItemCataPaxel(steelID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelSt = new Flann_ItemPaxel(steelID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}else{
-				paxelSt = new Flann_ItemPaxel(steelID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
-			}
+			
 			MinecraftForge.setToolClass(paxelSt, "pickaxe", STEEL.getHarvestLevel());
 			OreDictionary.registerOre("paxel"+Mat, paxelSt);
 			
