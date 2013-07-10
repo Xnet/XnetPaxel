@@ -28,7 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @NetworkMod(clientSideRequired=true,serverSideRequired=false)
-@Mod(modid=CorePaxel.modid,name="Xnet's Paxel Mod",version="#4")
+@Mod(modid=CorePaxel.modid,name="Xnet's Paxel Mod",version="#5")
 public class CorePaxel {
 	
 	public static final String modid = "Paxel";
