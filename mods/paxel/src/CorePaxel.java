@@ -28,7 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @NetworkMod(clientSideRequired=true,serverSideRequired=false)
-@Mod(modid=CorePaxel.modid,name="Xnet's Paxel Mod",version="#5")
+@Mod(modid=CorePaxel.modid,name="Xnet's Paxel Mod",version="#6")
 public class CorePaxel {
 	
 	public static final String modid = "Paxel";
@@ -42,7 +42,7 @@ public class CorePaxel {
 	
 	public static int vanillaID, emeraldID, netherrackID, obsidianID, redstoneID, steelID;
 	public static boolean enableVanilla, enableEmerald, enableNetherrack, enableObsidian, enableRedstone, enableSteel;
-	public static boolean advancedRecipes;
+	public static boolean advancedRecipes, placeTorch;
 	
 	public static CreativeTabs tabPAXEL = new Flann_CreativeTab("tabPAXEL");
 	
@@ -75,7 +75,8 @@ public class CorePaxel {
 			redstoneID = config.get("item", "redstoneID", 	 ItemID+15).getInt()-256;
 			steelID = config.get("item", "steelID", 		 ItemID+17).getInt()-256;
 			
-			advancedRecipes = config.get("enable", "advancedRecipes", false).getBoolean(false);
+			advancedRecipes = config.get("enable", "advancedRecipes", false, "Enable advanced recipes").getBoolean(false);
+			placeTorch = config.get("enable", "placeTorch", false, "Enable if you can place torches on right click (Consumes torches!)").getBoolean(false);
 			
 			enableVanilla = config.get("enable", "enableVanilla", true).getBoolean(true);
 			enableEmerald = config.get("enable", "enableEmerald", true).getBoolean(true);
@@ -111,24 +112,26 @@ public class CorePaxel {
 			stickCrafter = new Flann_ItemStickCrafter(vanillaID+0, "Stick Crafter", texLoc+"stickCrafter").setUnlocalizedName("stickCrafter").setCreativeTab(tabPAXEL);
 		}
 		if(enableVanilla){
-			GameRegistry.registerFuelHandler(new Flann_FuelHandler());
-			
 			if(advancedRecipes){
+				GameRegistry.registerFuelHandler(new Flann_FuelHandler_Advanced());
+				
 				stickV = new Flann_ItemStickPaxel(vanillaID+1, texLoc).setUnlocalizedName("stickPaxelVanilla").setCreativeTab(tabPAXEL);
 				bodyV = new Flann_ItemBodyPaxel(vanillaID+2, texLoc).setUnlocalizedName("bodyPaxelVanilla").setCreativeTab(tabPAXEL);
 				headV = new Flann_ItemHeadPaxel(vanillaID+3, texLoc).setUnlocalizedName("headPaxelVanilla").setCreativeTab(tabPAXEL);
 				
-				paxelW = new Flann_ItemPaxel(vanillaID+4, "Wooden Paxel", texLoc+"paxelW_a", Block.planks, WOOD).setUnlocalizedName("paxelW").setCreativeTab(tabPAXEL);
-				paxelS = new Flann_ItemPaxel(vanillaID+5, "Stone Paxel", texLoc+"paxelS_a", Block.cobblestone, STONE).setUnlocalizedName("paxelS").setCreativeTab(tabPAXEL);
-				paxelI = new Flann_ItemPaxel(vanillaID+6, "Iron Paxel", texLoc+"paxelI_a", Item.ingotIron, IRON).setUnlocalizedName("paxelI").setCreativeTab(tabPAXEL);
-				paxelD = new Flann_ItemPaxel(vanillaID+7, "Diamond Paxel", texLoc+"paxelD_a", Item.diamond, DIAMOND).setUnlocalizedName("paxelD").setCreativeTab(tabPAXEL);
-				paxelG = new Flann_ItemPaxel(vanillaID+8, "Golden Paxel", texLoc+"paxelG_a", Item.ingotGold, GOLD).setUnlocalizedName("paxelG").setCreativeTab(tabPAXEL);
+				paxelW = new Flann_ItemPaxel(vanillaID+4, placeTorch, "Wooden Paxel", texLoc+"paxelW_a", Block.planks, WOOD).setUnlocalizedName("paxelW").setCreativeTab(tabPAXEL);
+				paxelS = new Flann_ItemPaxel(vanillaID+5, placeTorch, "Stone Paxel", texLoc+"paxelS_a", Block.cobblestone, STONE).setUnlocalizedName("paxelS").setCreativeTab(tabPAXEL);
+				paxelI = new Flann_ItemPaxel(vanillaID+6, placeTorch, "Iron Paxel", texLoc+"paxelI_a", Item.ingotIron, IRON).setUnlocalizedName("paxelI").setCreativeTab(tabPAXEL);
+				paxelD = new Flann_ItemPaxel(vanillaID+7, placeTorch, "Diamond Paxel", texLoc+"paxelD_a", Item.diamond, DIAMOND).setUnlocalizedName("paxelD").setCreativeTab(tabPAXEL);
+				paxelG = new Flann_ItemPaxel(vanillaID+8, placeTorch, "Golden Paxel", texLoc+"paxelG_a", Item.ingotGold, GOLD).setUnlocalizedName("paxelG").setCreativeTab(tabPAXEL);
 			}else{
-				paxelW = new Flann_ItemPaxel(vanillaID+4, "Wooden Paxel", texLoc+"paxelW", Block.planks, WOOD).setUnlocalizedName("paxelW").setCreativeTab(tabPAXEL);
-				paxelS = new Flann_ItemPaxel(vanillaID+5, "Stone Paxel", texLoc+"paxelS", Block.cobblestone, STONE).setUnlocalizedName("paxelS").setCreativeTab(tabPAXEL);
-				paxelI = new Flann_ItemPaxel(vanillaID+6, "Iron Paxel", texLoc+"paxelI", Item.ingotIron, IRON).setUnlocalizedName("paxelI").setCreativeTab(tabPAXEL);
-				paxelD = new Flann_ItemPaxel(vanillaID+7, "Diamond Paxel", texLoc+"paxelD", Item.diamond, DIAMOND).setUnlocalizedName("paxelD").setCreativeTab(tabPAXEL);
-				paxelG = new Flann_ItemPaxel(vanillaID+8, "Golden Paxel", texLoc+"paxelG", Item.ingotGold, GOLD).setUnlocalizedName("paxelG").setCreativeTab(tabPAXEL);
+				GameRegistry.registerFuelHandler(new Flann_FuelHandler_Simple());
+				
+				paxelW = new Flann_ItemPaxel(vanillaID+4, placeTorch, "Wooden Paxel", texLoc+"paxelW", Block.planks, WOOD).setUnlocalizedName("paxelW").setCreativeTab(tabPAXEL);
+				paxelS = new Flann_ItemPaxel(vanillaID+5, placeTorch, "Stone Paxel", texLoc+"paxelS", Block.cobblestone, STONE).setUnlocalizedName("paxelS").setCreativeTab(tabPAXEL);
+				paxelI = new Flann_ItemPaxel(vanillaID+6, placeTorch, "Iron Paxel", texLoc+"paxelI", Item.ingotIron, IRON).setUnlocalizedName("paxelI").setCreativeTab(tabPAXEL);
+				paxelD = new Flann_ItemPaxel(vanillaID+7, placeTorch, "Diamond Paxel", texLoc+"paxelD", Item.diamond, DIAMOND).setUnlocalizedName("paxelD").setCreativeTab(tabPAXEL);
+				paxelG = new Flann_ItemPaxel(vanillaID+8, placeTorch, "Golden Paxel", texLoc+"paxelG", Item.ingotGold, GOLD).setUnlocalizedName("paxelG").setCreativeTab(tabPAXEL);
 			}
 		}
 		if(enableEmerald){
@@ -141,9 +144,9 @@ public class CorePaxel {
 			String M = "E";
 			if(advancedRecipes){
 				cataE = new Flann_ItemCataPaxel(emeraldID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelE = new Flann_ItemPaxel(emeraldID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelE = new Flann_ItemPaxel(emeraldID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}else{
-				paxelE = new Flann_ItemPaxel(emeraldID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelE = new Flann_ItemPaxel(emeraldID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, EMERALD).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}
 		}
 		if(enableNetherrack){
@@ -156,9 +159,9 @@ public class CorePaxel {
 			String M = "N";
 			if(advancedRecipes){
 				cataN = new Flann_ItemCataPaxel(netherrackID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelN = new Flann_ItemPaxel(netherrackID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelN = new Flann_ItemPaxel(netherrackID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}else{
-				paxelN = new Flann_ItemPaxel(netherrackID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelN = new Flann_ItemPaxel(netherrackID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, NETHERRACK).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}
 		}
 		if(enableObsidian){
@@ -171,9 +174,9 @@ public class CorePaxel {
 			String M = "O";
 			if(advancedRecipes){
 				cataO = new Flann_ItemCataPaxel(obsidianID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelO = new Flann_ItemPaxel(obsidianID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelO = new Flann_ItemPaxel(obsidianID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}else{
-				paxelO = new Flann_ItemPaxel(obsidianID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelO = new Flann_ItemPaxel(obsidianID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, OBSIDIAN).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}
 		}
 		if(enableRedstone){
@@ -186,9 +189,9 @@ public class CorePaxel {
 			String M = "R";
 			if(advancedRecipes){
 				cataR = new Flann_ItemCataPaxel(redstoneID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelR = new Flann_ItemPaxel(redstoneID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelR = new Flann_ItemPaxel(redstoneID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}else{
-				paxelR = new Flann_ItemPaxel(redstoneID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelR = new Flann_ItemPaxel(redstoneID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, REDSTONE).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}
 		}
 		if(enableSteel){
@@ -201,9 +204,9 @@ public class CorePaxel {
 			String M = "St";
 			if(advancedRecipes){
 				cataSt = new Flann_ItemCataPaxel(steelID+0, Mat, texLoc+"stickPaxel"+M, texLoc+"bodyPaxel"+M, texLoc+"headPaxel"+M).setUnlocalizedName("cataPaxel"+Mat).setCreativeTab(tabPAXEL);
-				paxelSt = new Flann_ItemPaxel(steelID+1, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelSt = new Flann_ItemPaxel(steelID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M+"_a", ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}else{
-				paxelSt = new Flann_ItemPaxel(steelID+1, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
+				paxelSt = new Flann_ItemPaxel(steelID+1, placeTorch, Mat+" Paxel", texLoc+"paxel"+M, ccm, ccmDam, STEEL).setUnlocalizedName("paxel"+Mat).setCreativeTab(tabPAXEL);
 			}
 		}
 	}
@@ -252,7 +255,7 @@ public class CorePaxel {
 				GameRegistry.addShapelessRecipe(new ItemStack(stickV,1,3),stickCrafter,Item.diamond,Item.diamond);
 				GameRegistry.addShapelessRecipe(new ItemStack(stickV,1,4),stickCrafter,Item.ingotGold,Item.ingotGold);
 				
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bodyV,1,0),"I  "," S ","  I",'s',"stickPaxel_W",'I',"plankWood"));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bodyV,1,0),"I  "," S ","  I",'S',"stickPaxel_W",'I',"plankWood"));
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bodyV,1,1),"I  "," S ","  I",'S',"stickPaxel_S",'I',Block.cobblestone));
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bodyV,1,2),"I  "," S ","  I",'S',"stickPaxel_I",'I',Item.ingotIron));
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bodyV,1,3),"I  "," S ","  I",'S',"stickPaxel_D",'I',Item.diamond));
@@ -296,17 +299,17 @@ public class CorePaxel {
 				
 				if(useOD){
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataE,1,0),"stickCrafter",ingot,ingot));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot));
 					if(!ingot2.equals("") && !ingot2.equals(ingot)){
 						GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataE,1,0),"stickCrafter",ingot2,ingot2));
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot2));
+						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot2));
 						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot2));
 					}
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelE,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}else{
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataE,1,0),"stickCrafter",ccm,ccm));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ccm));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataE,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelE,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}
@@ -338,17 +341,17 @@ public class CorePaxel {
 				
 				if(useOD){
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataN,1,0),"stickCrafter",ingot,ingot));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot));
 					if(!ingot2.equals("") && !ingot2.equals(ingot)){
 						GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataN,1,0),"stickCrafter",ingot2,ingot2));
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot2));
+						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot2));
 						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot2));
 					}
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelN,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}else{
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataN,1,0),"stickCrafter",ccm,ccm));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ccm));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataN,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelN,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}
@@ -380,17 +383,17 @@ public class CorePaxel {
 				
 				if(useOD){
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataO,1,0),"stickCrafter",ingot,ingot));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot));
 					if(!ingot2.equals("") && !ingot2.equals(ingot)){
 						GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataO,1,0),"stickCrafter",ingot2,ingot2));
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot2));
+						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot2));
 						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot2));
 					}
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelO,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}else{
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataO,1,0),"stickCrafter",ccm,ccm));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ccm));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataO,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelO,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}
@@ -422,17 +425,17 @@ public class CorePaxel {
 				
 				if(useOD){
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataR,1,0),"stickCrafter",ingot,ingot));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot));
 					if(!ingot2.equals("") && !ingot2.equals(ingot)){
 						GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataR,1,0),"stickCrafter",ingot2,ingot2));
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot2));
+						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot2));
 						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot2));
 					}
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelR,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}else{
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataR,1,0),"stickCrafter",ccm,ccm));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ccm));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataR,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelR,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}
@@ -464,17 +467,17 @@ public class CorePaxel {
 				
 				if(useOD){
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataSt,1,0),"stickCrafter",ingot,ingot));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot));
 					if(!ingot2.equals("") && !ingot2.equals(ingot)){
 						GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataSt,1,0),"stickCrafter",ingot2,ingot2));
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ingot2));
+						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ingot2));
 						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ingot2));
 					}
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelSt,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}else{
 					GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(cataSt,1,0),"stickCrafter",ccm,ccm));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,1),"I  "," S ","  I",'s',"stickPaxel_"+M,'I',ccm));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,1),"I  "," S ","  I",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cataSt,1,2)," I","S ",'S',"stickPaxel_"+M,'I',ccm));
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(paxelSt,1),"  h"," b ","s  ",'h',"headPaxel_"+M,'b',"bodyPaxel_"+M,'s',"stickPaxel_"+M));
 				}
